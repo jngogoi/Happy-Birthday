@@ -6,7 +6,6 @@
     <title>Chapter 22 | A Special Celebration</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Dancing+Script:wght@700&display=swap');
@@ -18,9 +17,10 @@
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: #f8fafc;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
             color: #0f172a; 
-            overflow-x: hidden; 
+            overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .gradient-text {
@@ -29,7 +29,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Modern Glassmorphism */
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -37,61 +36,108 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.05);
         }
 
-        /* Floating Animation for background */
-        .floating-blob {
+        /* Improved Realistic Balloons */
+        .balloon {
             position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(244, 114, 182, 0.05) 100%);
-            filter: blur(80px);
+            bottom: -200px;
             z-index: -1;
-            border-radius: 50%;
-            animation: move 20s infinite alternate;
+            animation: floatUp 12s linear infinite;
         }
 
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(20%, 20%); }
+        .balloon-body {
+            width: 80px;
+            height: 100px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: relative;
+            box-shadow: inset -10px -10px 15px rgba(0,0,0,0.1);
+        }
+
+        .balloon-body::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 12px solid inherit;
+        }
+
+        .balloon-string {
+            width: 1px;
+            height: 100px;
+            background: rgba(0,0,0,0.1);
+            position: absolute;
+            top: 105px;
+            left: 50%;
+            transform-origin: top;
+            animation: sway 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(-5deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-140vh) rotate(10deg); opacity: 0; }
+        }
+
+        @keyframes sway {
+            from { transform: translateX(-50%) rotate(-3deg); }
+            to { transform: translateX(-50%) rotate(3deg); }
+        }
+
+        /* Clean Linear Loader */
+        .progress-container {
+            width: 300px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.1s linear;
         }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-
-        .image-tilt {
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .image-tilt:hover {
-            transform: scale(1.02) rotate(1deg);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .signature { font-family: 'Dancing Script', cursive; }
     </style>
 </head>
 <body>
-
-    <div class="floating-blob"></div>
-    
     <audio id="bday-music" loop>
         <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
     </audio>
 
+    <div id="balloon-container"></div>
+
     <div id="entry-screen" class="fixed inset-0 z-[200] flex items-center justify-center bg-white">
         <div class="text-center">
-            <div class="relative inline-block mb-8">
-                <div class="absolute inset-0 animate-ping bg-indigo-100 rounded-full"></div>
-                <button onclick="startCelebration()" class="relative z-10 w-24 h-24 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
-                    <i class="fas fa-play text-2xl"></i>
-                </button>
+            <div class="relative inline-block mb-8 animate-bounce">
+                <div class="text-7xl mb-6">🎁</div>
             </div>
-            <h2 class="text-xl font-bold text-slate-800">Tap to unlock your surprise</h2>
+            <h2 class="text-2xl font-bold text-slate-800 mb-8">A surprise is waiting for you...</h2>
+            <button onclick="startLoading()" class="px-10 py-4 bg-indigo-600 text-white rounded-full font-bold shadow-2xl hover:scale-105 transition-transform flex items-center gap-3 mx-auto">
+                Unlock Surprise <i class="fas fa-magic"></i>
+            </button>
         </div>
     </div>
 
+    <div id="loader-screen" class="fixed inset-0 hidden flex-col items-center justify-center text-center bg-white z-[250]">
+        <h2 class="text-xl font-semibold text-slate-700 mb-2">Unlocking Chapter 22</h2>
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <p id="progress-text" class="mt-4 font-mono text-sm text-indigo-600 font-bold uppercase tracking-widest">Initialising... 0%</p>
+    </div>
+
     <main id="main-content" class="opacity-0 transition-opacity duration-1000 max-w-6xl mx-auto px-6 py-12">
-        
         <header class="flex flex-col lg:flex-row items-center gap-16 min-h-[80vh] mb-24">
             <div class="w-full lg:w-1/2 space-y-8">
                 <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-slate-100">
@@ -100,12 +146,13 @@
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
                     </span>
                     <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Level 22 Unlocked</span>
+                    <span class="mx-2 text-slate-200">|</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-500" id="current-date"></span>
                 </div>
                 
                 <h1 class="text-6xl md:text-8xl font-black text-slate-900 leading-[0.9]">
                     Happy <br> <span class="gradient-text">Birthday!</span>
                 </h1>
-                
                 <p class="text-lg text-slate-500 max-w-md leading-relaxed">
                     Today is all about you. Twenty-two years of being awesome, and the best is yet to come.
                 </p>
@@ -121,13 +168,11 @@
             </div>
 
             <div class="w-full lg:w-1/2 relative">
-                <div class="image-tilt relative z-10">
+                <div class="relative z-10">
                     <img src="https://yt3.ggpht.com/xXvBfCRn4GHbpLbZ-bcd0EyuJG0vs_ApRba6NNIopiGuv_lFhtrytf9OlJkK5wnz-1_QVxXST5qu0g=s640-c-fcrop64=1,00003800ffffc7ff-rw-nd-v1" 
                          alt="Celebration" 
                          class="rounded-[3rem] shadow-2xl w-full aspect-[4/5] object-cover border-[12px] border-white">
                 </div>
-                <div class="absolute -top-6 -right-6 w-24 h-24 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-                <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
             </div>
         </header>
 
@@ -145,8 +190,8 @@
                 <p class="text-xs font-bold uppercase tracking-widest text-slate-400">% Pure Awesome</p>
             </div>
         </section>
-
-        <section class="mb-24 reveal">
+  </section>
+         <section class="mb-24 reveal">
             <div class="glass-card p-12 md:p-20 rounded-[4rem] relative overflow-hidden">
                 <div class="relative z-10 text-center max-w-2xl mx-auto">
                     <h2 class="text-3xl md:text-5xl font-black mb-12">The Birthday Manifest</h2>
@@ -179,34 +224,75 @@
 
         <footer class="text-center py-12 border-t border-slate-200">
             <p class="signature text-4xl text-indigo-600 mb-4">Happy Birthday!</p>
-            <p class="text-slate-400 text-xs font-bold tracking-widest uppercase">Made for you with ✨</p>
+            <p class="text-slate-400 text-xs font-bold tracking-widest uppercase">Made with ❤ for you</p>
         </footer>
     </main>
 
     <div id="message-modal" class="fixed inset-0 z-[250] hidden items-center justify-center p-6 bg-slate-900/40 backdrop-blur-md opacity-0 transition-all duration-500">
-        <div class="bg-white p-10 md:p-16 rounded-[3rem] max-w-xl w-full shadow-2xl relative">
+        <div class="bg-white p-10 rounded-[3rem] max-w-xl w-full shadow-2xl relative">
             <button onclick="toggleModal()" class="absolute top-8 right-8 text-slate-300 hover:text-slate-900 transition-colors">
                 <i class="fas fa-times text-2xl"></i>
             </button>
             <div class="signature text-5xl text-indigo-600 mb-8">Dear You,</div>
-            <div class="prose prose-slate lg:prose-lg text-slate-600 leading-relaxed space-y-4">
-                <p>Happy 22nd Birthday! It's been an incredible journey watching you grow, learn, and conquer everything you set your mind to.</p>
-                <p>You have this rare ability to make everyone around you feel seen and valued. Never lose that spark.</p>
-                <p>Here's to a year of big wins, deep laughs, and unforgettable moments.</p>
-            </div>
-            <div class="mt-12 pt-8 border-t border-slate-100">
-                <p class="signature text-3xl text-slate-900">Stay Golden,</p>
-                <p class="font-bold text-indigo-600 uppercase tracking-widest text-xs mt-1">Your Name</p>
-            </div>
+            <p class="text-slate-600 leading-relaxed">Happy 22nd Birthday! Here's to a year of big wins and deep laughs. You make the world brighter just by being in it.</p>
         </div>
     </div>
 
     <script>
+        // Set specific date for Jan 14, 2026
+        const targetDate = new Date('2026-01-14');
+        document.getElementById('current-date').innerText = targetDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        function createBalloons() {
+            const container = document.getElementById('balloon-container');
+            const colors = ['#6366f1', '#f472b6', '#fbbf24', '#34d399', '#a855f7'];
+            for(let i = 0; i < 15; i++) {
+                const color = colors[i % colors.length];
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.innerHTML = `
+                    <div class="balloon-body" style="background-color: ${color}; border-bottom-color: ${color}"></div>
+                    <div class="balloon-string"></div>
+                `;
+                balloon.style.left = Math.random() * 95 + 'vw';
+                balloon.style.animationDelay = (Math.random() * 8) + 's';
+                balloon.style.transform = `scale(${0.6 + Math.random() * 0.6})`;
+                container.appendChild(balloon);
+            }
+        }
+
+        function startLoading() {
+            document.getElementById('entry-screen').style.display = 'none';
+            document.getElementById('loader-screen').classList.replace('hidden', 'flex');
+            
+            let progress = 0;
+            const bar = document.getElementById('progress-bar');
+            const text = document.getElementById('progress-text');
+            
+            const interval = setInterval(() => {
+                progress += 1;
+                bar.style.width = progress + '%';
+                
+                // Dynamic Loading Text
+                if (progress < 30) text.innerText = `Preparing Surprise... ${progress}%`;
+                else if (progress < 70) text.innerText = `Loading Memories... ${progress}%`;
+                else text.innerText = `Almost there... ${progress}%`;
+                
+                if(progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(startCelebration, 500);
+                }
+            }, 35);
+        }
+
         function startCelebration() {
-            document.getElementById('bday-music').play();
-            document.getElementById('entry-screen').classList.add('opacity-0');
+            const music = document.getElementById('bday-music');
+            music.play().catch(e => console.log("Audio needs user interaction"));
+            
+            document.getElementById('loader-screen').classList.add('opacity-0');
+            createBalloons();
             setTimeout(() => {
-                document.getElementById('entry-screen').style.display = 'none';
+                document.getElementById('loader-screen').style.display = 'none';
                 document.getElementById('main-content').classList.remove('opacity-0');
                 shootConfetti();
                 initReveal();
@@ -214,28 +300,12 @@
         }
 
         function shootConfetti() {
-            const duration = 3 * 1000;
+            const duration = 4000;
             const end = Date.now() + duration;
-
             (function frame() {
-                confetti({
-                    particleCount: 3,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#6366f1', '#f472b6']
-                });
-                confetti({
-                    particleCount: 3,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#6366f1', '#f472b6']
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                confetti({ particleCount: 4, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#6366f1', '#f472b6'] });
+                confetti({ particleCount: 4, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#6366f1', '#f472b6'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
 
@@ -243,27 +313,21 @@
             const modal = document.getElementById('message-modal');
             if(modal.classList.contains('hidden')) {
                 modal.classList.remove('hidden');
-                setTimeout(() => {
-                    modal.classList.add('flex');
-                    modal.classList.add('opacity-100');
-                }, 10);
+                modal.classList.add('flex');
+                setTimeout(() => modal.classList.add('opacity-100'), 10);
             } else {
                 modal.classList.remove('opacity-100');
                 setTimeout(() => {
                     modal.classList.add('hidden');
+                    modal.classList.remove('flex');
                 }, 500);
             }
         }
 
         function initReveal() {
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
             }, { threshold: 0.1 });
-
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         }
     </script>
