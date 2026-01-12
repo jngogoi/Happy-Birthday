@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 22 | A Special Celebration</title>
+    <title>Chapter 22 | To My Favorite Person</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,36 +14,30 @@
             --primary: #6366f1;
             --secondary: #f472b6;
         }
-
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #fdf2f8 50%, #f1f5f9 100%);
             color: #0f172a; 
             overflow-x: hidden;
             min-height: 100vh;
         }
-
         .gradient-text {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .glass-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 20px 50px rgba(0,0,0,0.05);
         }
-
-        /* Improved Realistic Balloons */
         .balloon {
             position: fixed;
             bottom: -200px;
             z-index: -1;
             animation: floatUp 12s linear infinite;
         }
-
         .balloon-body {
             width: 80px;
             height: 100px;
@@ -52,7 +45,6 @@
             position: relative;
             box-shadow: inset -10px -10px 15px rgba(0,0,0,0.1);
         }
-
         .balloon-body::after {
             content: '';
             position: absolute;
@@ -63,7 +55,6 @@
             border-right: 8px solid transparent;
             border-bottom: 12px solid inherit;
         }
-
         .balloon-string {
             width: 1px;
             height: 100px;
@@ -74,20 +65,16 @@
             transform-origin: top;
             animation: sway 3s ease-in-out infinite alternate;
         }
-
         @keyframes floatUp {
             0% { transform: translateY(0) rotate(-5deg); opacity: 0; }
             10% { opacity: 0.7; }
             90% { opacity: 0.7; }
             100% { transform: translateY(-140vh) rotate(10deg); opacity: 0; }
         }
-
         @keyframes sway {
             from { transform: translateX(-50%) rotate(-3deg); }
             to { transform: translateX(-50%) rotate(3deg); }
         }
-
-        /* Clean Linear Loader */
         .progress-container {
             width: 300px;
             height: 4px;
@@ -97,15 +84,13 @@
             overflow: hidden;
             margin: 20px auto;
         }
-
         #progress-bar {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient(90deg, #f472b6, #6366f1);
             border-radius: 10px;
             transition: width 0.1s linear;
         }
-
         .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
         .signature { font-family: 'Dancing Script', cursive; }
@@ -115,63 +100,60 @@
     <audio id="bday-music" loop>
         <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
     </audio>
-
     <div id="balloon-container"></div>
 
     <div id="entry-screen" class="fixed inset-0 z-[200] flex items-center justify-center bg-white">
-        <div class="text-center">
+        <div class="text-center px-6">
             <div class="relative inline-block mb-8 animate-bounce">
-                <div class="text-7xl mb-6">🎁</div>
+                <div class="text-7xl mb-6">💖</div>
             </div>
-            <h2 class="text-2xl font-bold text-slate-800 mb-8">A surprise is waiting for you...</h2>
-            <button onclick="startLoading()" class="px-10 py-4 bg-indigo-600 text-white rounded-full font-bold shadow-2xl hover:scale-105 transition-transform flex items-center gap-3 mx-auto">
-                Unlock Surprise <i class="fas fa-magic"></i>
+            <h2 class="text-2xl font-bold text-slate-800 mb-8">I made something special for you...</h2>
+            <button onclick="startLoading()" class="px-10 py-4 bg-pink-500 text-white rounded-full font-bold shadow-2xl hover:scale-105 transition-transform flex items-center gap-3 mx-auto">
+                Open My Heart <i class="fas fa-heart"></i>
             </button>
         </div>
     </div>
 
     <div id="loader-screen" class="fixed inset-0 hidden flex-col items-center justify-center text-center bg-white z-[250]">
-        <h2 class="text-xl font-semibold text-slate-700 mb-2">Unlocking Chapter 22</h2>
+        <h2 class="text-xl font-semibold text-slate-700 mb-2">Counting my blessings...</h2>
         <div class="progress-container">
             <div id="progress-bar"></div>
         </div>
-        <p id="progress-text" class="mt-4 font-mono text-sm text-indigo-600 font-bold uppercase tracking-widest">Initialising... 0%</p>
+        <p id="progress-text" class="mt-4 font-mono text-sm text-pink-500 font-bold uppercase tracking-widest">Collecting Stars... 0%</p>
     </div>
 
     <main id="main-content" class="opacity-0 transition-opacity duration-1000 max-w-6xl mx-auto px-6 py-12">
         <header class="flex flex-col lg:flex-row items-center gap-16 min-h-[80vh] mb-24">
             <div class="w-full lg:w-1/2 space-y-8">
-                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-slate-100">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-pink-100">
                     <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
                     </span>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Level 22 Unlocked</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Chapter 22: The Best One Yet</span>
                     <span class="mx-2 text-slate-200">|</span>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-500" id="current-date"></span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-pink-500" id="current-date"></span>
                 </div>
                 
                 <h1 class="text-6xl md:text-8xl font-black text-slate-900 leading-[0.9]">
-                    Happy <br> <span class="gradient-text">Birthday!</span>
+                    Happy <br> <span class="gradient-text">Birthday, Beautiful.</span>
                 </h1>
                 <p class="text-lg text-slate-500 max-w-md leading-relaxed">
-                    Today is all about you. Twenty-two years of being awesome, and the best is yet to come.
+                    Today isn't just a date on the calendar; it’s a celebration of my favorite person in the world. 22 looks incredible on you.
                 </p>
-
                 <div class="flex flex-wrap gap-4">
-                    <button onclick="shootConfetti()" class="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl hover:bg-indigo-700 transition-all flex items-center gap-2">
-                        <i class="fas fa-gift"></i> Celebrate
+                    <button onclick="shootConfetti()" class="px-8 py-4 bg-pink-500 text-white rounded-2xl font-bold shadow-xl hover:bg-pink-600 transition-all flex items-center gap-2">
+                        <i class="fas fa-sparkles"></i> Celebrate You
                     </button>
                     <button onclick="toggleModal()" class="px-8 py-4 bg-white text-slate-900 border border-slate-200 rounded-2xl font-bold shadow-sm hover:bg-slate-50 transition-all">
-                        Open Note
+                        Read My Letter
                     </button>
                 </div>
             </div>
-
             <div class="w-full lg:w-1/2 relative">
                 <div class="relative z-10">
                     <img src="https://yt3.ggpht.com/xXvBfCRn4GHbpLbZ-bcd0EyuJG0vs_ApRba6NNIopiGuv_lFhtrytf9OlJkK5wnz-1_QVxXST5qu0g=s640-c-fcrop64=1,00003800ffffc7ff-rw-nd-v1" 
-                         alt="Celebration" 
+                        
                          class="rounded-[3rem] shadow-2xl w-full aspect-[4/5] object-cover border-[12px] border-white">
                 </div>
             </div>
@@ -179,43 +161,43 @@
 
         <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 reveal">
             <div class="glass-card p-10 rounded-[3rem] text-center">
-                <h4 class="text-5xl font-black text-indigo-600 mb-2">22</h4>
-                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Chapters Written</p>
+                <h4 class="text-5xl font-black text-pink-500 mb-2">22</h4>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Years of Radiance</p>
             </div>
             <div class="glass-card p-10 rounded-[3rem] text-center">
-                <h4 class="text-5xl font-black text-pink-500 mb-2">∞</h4>
-                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Memories Ahead</p>
+                <h4 class="text-5xl font-black text-indigo-600 mb-2">∞</h4>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Reasons I Love You</p>
             </div>
             <div class="glass-card p-10 rounded-[3rem] text-center">
-                <h4 class="text-5xl font-black text-amber-500 mb-2">100</h4>
-                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">% Pure Awesome</p>
+                <h4 class="text-5xl font-black text-amber-500 mb-2">365</h4>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">New Days of Us</p>
             </div>
         </section>
-  </section>
-         <section class="mb-24 reveal">
+
+        <section class="mb-24 reveal">
             <div class="glass-card p-12 md:p-20 rounded-[4rem] relative overflow-hidden">
                 <div class="relative z-10 text-center max-w-2xl mx-auto">
-                    <h2 class="text-3xl md:text-5xl font-black mb-12">The Birthday Manifest</h2>
+                    <h2 class="text-3xl md:text-5xl font-black mb-12">My Wishes For You</h2>
                     <div class="grid gap-6">
                         <div class="flex items-center gap-6 p-6 bg-white/50 rounded-3xl text-left hover:bg-white transition-colors cursor-default">
-                            <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl">🌟</div>
+                            <div class="w-12 h-12 bg-pink-100 rounded-2xl flex items-center justify-center text-2xl">💍</div>
                             <div>
-                                <h4 class="font-bold text-slate-900">Endless Growth</h4>
-                                <p class="text-sm text-slate-500">May this year bring you closer to your wildest dreams.</p>
+                                <h4 class="font-bold text-slate-900">Endless Happiness</h4>
+                                <p class="text-sm text-slate-500">May your smile always be as bright as it is today.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-6 p-6 bg-white/50 rounded-3xl text-left hover:bg-white transition-colors cursor-default">
-                            <div class="w-12 h-12 bg-pink-100 rounded-2xl flex items-center justify-center text-2xl">☕</div>
+                            <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl">✈️</div>
                             <div>
-                                <h4 class="font-bold text-slate-900">Peaceful Moments</h4>
-                                <p class="text-sm text-slate-500">More sunrises, better coffee, and quieter minds.</p>
+                                <h4 class="font-bold text-slate-900">Adventure Together</h4>
+                                <p class="text-sm text-slate-500">To seeing the world and making memories, hand in hand.</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-6 p-6 bg-white/50 rounded-3xl text-left hover:bg-white transition-colors cursor-default">
-                            <div class="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center text-2xl">🚀</div>
+                            <div class="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center text-2xl">🏠</div>
                             <div>
-                                <h4 class="font-bold text-slate-900">Bold Adventures</h4>
-                                <p class="text-sm text-slate-500">Go where you feel most alive.</p>
+                                <h4 class="font-bold text-slate-900">A Peaceful Heart</h4>
+                                <p class="text-sm text-slate-500">May you always feel loved, safe, and completely at home.</p>
                             </div>
                         </div>
                     </div>
@@ -224,8 +206,8 @@
         </section>
 
         <footer class="text-center py-12 border-t border-slate-200">
-            <p class="signature text-4xl text-indigo-600 mb-4">Happy Birthday!</p>
-            <p class="text-slate-400 text-xs font-bold tracking-widest uppercase">Made with ❤ for you</p>
+            <p class="signature text-4xl text-pink-500 mb-4">Forever Yours,</p>
+            <p class="text-slate-400 text-xs font-bold tracking-widest uppercase">Designed with love for my favorite girl</p>
         </footer>
     </main>
 
@@ -234,13 +216,17 @@
             <button onclick="toggleModal()" class="absolute top-8 right-8 text-slate-300 hover:text-slate-900 transition-colors">
                 <i class="fas fa-times text-2xl"></i>
             </button>
-            <div class="signature text-5xl text-indigo-600 mb-8">Dear You,</div>
-            <p class="text-slate-600 leading-relaxed">Happy 22nd Birthday! Here's to a year of big wins and deep laughs. You make the world brighter just by being in it.</p>
+            <div class="signature text-5xl text-pink-500 mb-8">Hey Love,</div>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Happy 22nd Birthday! Watching you grow, achieve your dreams, and navigate the world is the greatest privilege of my life. 
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                You make everything better just by existing. I hope this year brings you as much joy as you’ve brought into my life since the day we met. I love you more than words can say.
+            </p>
         </div>
     </div>
 
     <script>
-        // Set specific date for Jan 14, 2026
         const targetDate = new Date('2026-01-14');
         document.getElementById('current-date').innerText = targetDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -274,16 +260,15 @@
                 progress += 1;
                 bar.style.width = progress + '%';
                 
-                // Dynamic Loading Text
-                if (progress < 30) text.innerText = `Preparing Surprise... ${progress}%`;
-                else if (progress < 70) text.innerText = `Loading Memories... ${progress}%`;
-                else text.innerText = `Almost there... ${progress}%`;
+                if (progress < 30) text.innerText = `Preparing the magic... ${progress}%`;
+                else if (progress < 70) text.innerText = `Thinking of you... ${progress}%`;
+                else text.innerText = `Ready for you... ${progress}%`;
                 
                 if(progress >= 100) {
                     clearInterval(interval);
                     setTimeout(startCelebration, 500);
                 }
-            }, 35);
+            }, 30);
         }
 
         function startCelebration() {
@@ -304,8 +289,8 @@
             const duration = 4000;
             const end = Date.now() + duration;
             (function frame() {
-                confetti({ particleCount: 4, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#6366f1', '#f472b6'] });
-                confetti({ particleCount: 4, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#6366f1', '#f472b6'] });
+                confetti({ particleCount: 4, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#f472b6', '#6366f1'] });
+                confetti({ particleCount: 4, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#f472b6', '#6366f1'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
